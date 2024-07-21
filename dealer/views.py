@@ -7,3 +7,8 @@ from .models import Dealer
 class DealerView(viewsets.ModelViewSet):
     serializer_class = DealerSerializer
     queryset = Dealer.objects.all()
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        ordering = self.request.query_params.get('ordering', 'id')
+        return queryset.order_by(ordering)
